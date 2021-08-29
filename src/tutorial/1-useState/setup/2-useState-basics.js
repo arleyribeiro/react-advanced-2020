@@ -5,9 +5,10 @@ const UseStateBasics = () => {
   // const value = useState(1)[0];
   // const handler = useState(1)[1];
   // console.log(value, handler);
-  const [text, setText] = useState("random title");
+  const randomTitle = "random title";
+  const [text, setText] = useState(randomTitle);
   const handleClick = () => {
-    const title = "Hello world";
+    const title = text === randomTitle ? "Hello world" : randomTitle;
     setText(title);
   };
   return (
