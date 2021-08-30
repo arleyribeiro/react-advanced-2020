@@ -6,8 +6,10 @@ const UseEffectBasics = () => {
   const [value, setValue] = useState(0);
   useEffect(() => {
     console.log("call useEffect");
-    document.title = value > 1 ? `New Messages(${value})` : "Title";
-  });
+    if (value >= 1) {
+      document.title = `New Messages(${value})`;
+    }
+  }, [value]);
   console.log("render component");
   return (
     <>
