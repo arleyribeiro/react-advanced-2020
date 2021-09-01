@@ -7,9 +7,6 @@ import React, { useState } from "react";
 // dynamic object keys
 
 const ControlledInputs = () => {
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
   const [people, setPeople] = useState([]);
   const [person, setPerson] = useState({ firstName: "", email: "", age: 0 });
   const handleChange = (e) => {
@@ -67,13 +64,12 @@ const ControlledInputs = () => {
           </button>
         </form>
         {people.map((person) => {
-          const { id, firstName, email } = person;
+          const { id, firstName, email, age } = person;
           return (
             <div className="item" key={id}>
               <h4>{firstName}</h4>
-              <p>
-                {email} {age}
-              </p>
+              <p>{email}</p>
+              <p>{age}</p>
             </div>
           );
         })}
