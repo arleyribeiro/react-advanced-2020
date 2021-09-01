@@ -2,26 +2,50 @@ import React, { useState, useReducer } from "react";
 import Modal from "./Modal";
 import { data } from "../../../data";
 // reducer function
-
+const reducer = (state, action) => {
+  console.log(state, action);
+  if (action.type === "ADD_ITEM") {
+    const people = [...state.people, action.payload];
+    return {
+      ...state,
+      people: people,
+      isShowModal: true,
+      modalContent: "item added",
+    };
+  }
+  if (action.type === "NO_VALUE") {
+    return {
+      ...state,
+      isShowModal: true,
+      modalContent: "please enter value",
+    };
+  }
+  throw new Error("no matching action type");
+};
+const defaultState = {
+  people: data,
+  isShowModal: false,
+  modalContent: "hello",
+};
 const Index = () => {
-  const [people, setPeople] = useState(data);
   const [name, setName] = useState("");
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [state, dispatch] = useReducer(reducer, defaultState);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name) {
       console.log(name);
-      setIsShowModal(false);
-      setPeople([...people, { id: new Date().getTime().toString(), name }]);
+      const item = { id: new Date().getTime().toString(), name };
+      dispatch({ type: "ADD_ITEM", payload: item });
       setName("");
     } else {
-      setIsShowModal(true);
+      dispatch({ type: "NO_VALUE" });
     }
   };
   return (
     <>
       <h2>useReducer</h2>
-      {isShowModal && <Modal />}
+      {state.isShowModal && <Modal modalContent={state.modalContent} />}
       <form onSubmit={handleSubmit} className="form">
         <div>
           <input
@@ -34,9 +58,9 @@ const Index = () => {
           add
         </button>
       </form>
-      {people.map((person) => {
+      {state.people.map((person) => {
         return (
-          <div key={person.id} className="itema">
+          <div key={person.id} className="item">
             <h4>{person.name}</h4>
             <button className="btn">remove</button>
           </div>
